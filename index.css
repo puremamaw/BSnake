@@ -1,0 +1,8 @@
+body {
+    background-color: rgb(215, 218, 209);
+}
+
+#game-container {
+    border: 2px solid black;
+    position: relative;
+}

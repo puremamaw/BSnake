@@ -25,17 +25,18 @@ class GameBoard {
         this.cellWidth = Math.floor(this.boardWidth / this.size);
         this.cellHeight = Math.floor(this.boardHeight / this.size);
 
-        for (let y = 0; y < this.size; y++) {
-            for (let x = 0; x < this.size; x++) {
-                let newCell = new GameCell(this.cellWidth, this.cellHeight, x, y);
-                this.appendCell(newCell);
+        // for (let y = 0; y < this.size; y++) {
+        //     for (let x = 0; x < this.size; x++) {
+        //         let newCell = new GameCell(this.cellWidth, this.cellHeight, x, y);
+        //         this.appendCell(newCell);
 
-                if (!this.cells[x])
-                    this.cells[x] = [];
+        //         if (!this.cells[x])
+        //             this.cells[x] = [];
 
-                this.cells[x][y] = newCell;
-            }
-        }
+        //         this.cells[x][y] = newCell;
+        //     }
+        // }
+
         document.addEventListener("keydown", this.onArrowKeysPressed);
         this.defaultSnakeLocation();
     }
@@ -95,19 +96,18 @@ class GameBoard {
             this.snake.continueSnake();
             this.appendSnake(this.snake);
             this.foodHasEaten();
-
             this.gameOver();
         }
     }
 
-    game = setInterval(this.snakeMovement, 100);
+    // game = setInterval(this.snakeMovement, 100);
 
 
     gameOver = () => {
         if (this.snake.absoluteX < -8 ||
             this.snake.absoluteY < 0 ||
-            this.snake.absoluteX >= this.boardWidth ||
-            this.snake.absoluteY >= this.boardHeight) {
+            this.snake.absoluteX > (this.boardWidth - this.cellWidth) ||
+            this.snake.absoluteY > (this.boardHeight - this.cellHeight)) {
             this.deleteSnake();
             this.deleteFood();
             alert("Game Over");
@@ -125,6 +125,7 @@ class GameBoard {
     }
 
     foodHasEaten = () => {
-
+        if (this.snake.absoluteX == this.food.absoluteX && this.food.absoluteY == this.food.absoluteY)
+            alert("NAKAON NA");
     }
 }

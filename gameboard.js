@@ -100,7 +100,7 @@ class GameBoard {
         }
     }
 
-    // game = setInterval(this.snakeMovement, 100);
+    game = setInterval(this.snakeMovement, 100);
 
 
     gameOver = () => {

@@ -85,14 +85,18 @@ class GameBoard {
     snakeMovement = () => {
         if (!this.hasMovementDisabled) {
             if (this.keyDirection == "LEFT")
-                this.snake.absoluteX -= this.cellWidth;
+                this.snake.absoluteX -= 1;
             if (this.keyDirection == "UP")
-                this.snake.absoluteY -= this.cellHeight;
+                this.snake.absoluteY -= 1;
             if (this.keyDirection == "RIGHT")
-                this.snake.absoluteX += this.cellWidth;
+                this.snake.absoluteX += 1;
             if (this.keyDirection == "DOWN")
-                this.snake.absoluteY += this.cellHeight;
+                this.snake.absoluteY += 1;
 
+            // console.log("snakeAbsoluteX", this.snake.absoluteX);
+            // console.log("foodAbsoluteX", this.food.absoluteX);
+            // console.log("snakeAbsoluteY", this.snake.absoluteY);
+            // console.log("foodAbsoluteY", this.food.absoluteY);
             this.snake.continueSnake();
             this.appendSnake(this.snake);
             this.foodHasEaten();
@@ -100,7 +104,7 @@ class GameBoard {
         }
     }
 
-    game = setInterval(this.snakeMovement, 100);
+    game = setInterval(this.snakeMovement, 1);
 
 
     gameOver = () => {
@@ -125,7 +129,7 @@ class GameBoard {
     }
 
     foodHasEaten = () => {
-        if (this.snake.absoluteX == this.food.absoluteX && this.food.absoluteY == this.food.absoluteY)
+        if (this.snake.absoluteX == this.food.absoluteX && this.snake.absoluteY == this.food.absoluteY)
             alert("NAKAON NA");
     }
 }

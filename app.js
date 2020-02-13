@@ -1,4 +1,4 @@
-document.addEventListener("readystatechange", function () {
+document.addEventListener("readystatechange", function() {
     if (document.readyState == "complete") {
         Program.Main();
     }

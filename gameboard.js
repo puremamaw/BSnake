@@ -4,7 +4,7 @@ class GameBoard {
     boardHeight = 800;
     cells = [];
     gameContainer = null;
-    size = 45;
+    size = 40;
     snake = null;
     score = 0;
     keyDirection = null;
@@ -97,6 +97,7 @@ class GameBoard {
             // console.log("foodAbsoluteX", this.food.absoluteX);
             // console.log("snakeAbsoluteY", this.snake.absoluteY);
             // console.log("foodAbsoluteY", this.food.absoluteY);
+
             this.snake.continueSnake();
             this.appendSnake(this.snake);
             this.foodHasEaten();

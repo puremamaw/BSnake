@@ -1,8 +1,9 @@
 body {
-    background-color: rgb(215, 218, 209);
+    background-color: rgb(1, 120, 167);
 }
 
 #game-container {
-    border: 2px solid black;
+    border: 1px solid black;
+    background-color: gray;
     position: relative;
 }

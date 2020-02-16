@@ -6,17 +6,17 @@ class Food {
     absoluteY = 0;
     boardWidth = 0;
     boardHeight = 0;
+    cellLength = 0;
     x = 0;
     y = 0;
     Element = null;
 
-    constructor(w, h, bw, bh) {
+    constructor(w, h, cl) {
         this.width = w;
         this.height = h;
-        this.boardWidth = bw;
-        this.boardHeight = bh;
-        this.absoluteX = (Math.floor(Math.random() * ((this.boardWidth - this.width) - 0) + 0));
-        this.absoluteY = (Math.floor(Math.random() * ((this.boardHeight - this.height) - 0) + 0));
+        this.cellLength = cl;
+        this.absoluteX = this.width * Math.floor(Math.random() * ((this.cellLength - 0) + 0));
+        this.absoluteY = this.height * Math.floor(Math.random() * ((this.cellLength - 0) + 0));
 
         let food = []
 

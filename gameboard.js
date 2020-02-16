@@ -7,13 +7,13 @@ class GameBoard {
     size = 40;
     snake = null;
     score = 0;
-    keyDirection = null;
     cellWidth = 0;
     cellHeight = 0;
     hasMovementDisabled = false;
     food = [];
+    gameSpeed = 1000;
 
-    foodContainer = [];
+    gameObjects = [];
 
     initialize() {
         this.gameContainer = document.querySelector("#game-container");
@@ -25,17 +25,18 @@ class GameBoard {
         this.cellWidth = Math.floor(this.boardWidth / this.size);
         this.cellHeight = Math.floor(this.boardHeight / this.size);
 
-        // for (let y = 0; y < this.size; y++) {
-        //     for (let x = 0; x < this.size; x++) {
-        //         let newCell = new GameCell(this.cellWidth, this.cellHeight, x, y);
-        //         this.appendCell(newCell);
+        for (let y = 0; y < this.size; y++) {
+            for (let x = 0; x < this.size; x++) {
+                let newCell = new GameCell(this.cellWidth, this.cellHeight, x, y);
+                this.appendCell(newCell);
 
-        //         if (!this.cells[x])
-        //             this.cells[x] = [];
+                if (!this.cells[x])
+                    this.cells[x] = [];
 
-        //         this.cells[x][y] = newCell;
-        //     }
-        // }
+                this.cells[x][y] = newCell;
+                this.gameObjects.push(newCell);
+            }
+        }
 
         document.addEventListener("keydown", this.onArrowKeysPressed);
         this.defaultSnakeLocation();
@@ -54,58 +55,74 @@ class GameBoard {
     }
 
     defaultSnakeLocation() {
-        this.snake = new Snake(this.cellWidth, this.cellHeight);
+        this.snake = new Snake(4, 20, this.cellWidth, this.cellHeight);
         this.appendSnake(this.snake);
+        this.gameObjects.push(this.snake);
         this.createFood();
     }
 
     createFood() {
-        this.food = new Food(this.cellWidth, this.cellHeight, this.boardWidth, this.boardHeight);
+        this.food = new Food(this.cellWidth, this.cellHeight, this.cells.length);
+        this.gameObjects.push(this.food);
         this.appendFood(this.food);
     }
 
 
     onArrowKeysPressed = (event) => {
         let key = event.keyCode;
-        if (key == 37 && this.keyDirection != "RIGHT") {
-            this.keyDirection = "LEFT";
-            this.snakeMovement();
-        } else if (key == 38 && this.keyDirection != "DOWN") {
-            this.keyDirection = "UP";
-            this.snakeMovement();
-        } else if (key == 39 && this.keyDirection != "LEFT") {
-            this.keyDirection = "RIGHT";
-            this.snakeMovement();
-        } else if (key == 40 && this.keyDirection != "UP") {
-            this.keyDirection = "DOWN";
-            this.snakeMovement();
+        if (key == 37 && this.snake.keyDirection != "RIGHT") {
+            this.snake.keyDirection = "LEFT";
+            this.updateSnakeMovement();
+        } else if (key == 38 && this.snake.keyDirection != "DOWN") {
+            this.snake.keyDirection = "UP";
+            this.updateSnakeMovement();
+        } else if (key == 39 && this.snake.keyDirection != "LEFT") {
+            this.snake.keyDirection = "RIGHT";
+            this.updateSnakeMovement();
+        } else if (key == 40 && this.snake.keyDirection != "UP") {
+            this.snake.keyDirection = "DOWN";
+            this.updateSnakeMovement();
         }
     }
 
-    snakeMovement = () => {
+    updateSnakeMovement = () => {
         if (!this.hasMovementDisabled) {
-            if (this.keyDirection == "LEFT")
-                this.snake.absoluteX -= 1;
-            if (this.keyDirection == "UP")
-                this.snake.absoluteY -= 1;
-            if (this.keyDirection == "RIGHT")
-                this.snake.absoluteX += 1;
-            if (this.keyDirection == "DOWN")
-                this.snake.absoluteY += 1;
+            if (this.snake.keyDirection == "LEFT") {
+                this.snake.x--;
+                this.snake.absoluteX -= this.cellWidth;
+            }
 
-            // console.log("snakeAbsoluteX", this.snake.absoluteX);
-            // console.log("foodAbsoluteX", this.food.absoluteX);
-            // console.log("snakeAbsoluteY", this.snake.absoluteY);
-            // console.log("foodAbsoluteY", this.food.absoluteY);
+            if (this.snake.keyDirection == "UP") {
+                this.snake.y--;
+                this.snake.absoluteY -= this.cellHeight;
+            }
+
+            if (this.snake.keyDirection == "RIGHT") {
+                this.snake.x++;
+                this.snake.absoluteX += this.cellWidth;
+            }
+
+            if (this.snake.keyDirection == "DOWN") {
+                this.snake.y++;
+                this.snake.absoluteY += this.cellHeight;
+            }
 
             this.snake.continueSnake();
             this.appendSnake(this.snake);
             this.foodHasEaten();
             this.gameOver();
+
+
         }
     }
 
-    game = setInterval(this.snakeMovement, 1);
+    // update = () => {
+    //     this.updateSnakeMovement();
+    //     for (let x = 0; x < this.gameObjects.length; x++)
+    //         this.gameObjects[x].update();
+    // }
+
+    // updateGame = setInterval(this.update, this.gameSpeed);
 
 
     gameOver = () => {
@@ -130,7 +147,10 @@ class GameBoard {
     }
 
     foodHasEaten = () => {
-        if (this.snake.absoluteX == this.food.absoluteX && this.snake.absoluteY == this.food.absoluteY)
-            alert("NAKAON NA");
+        if (this.snake.absoluteX == this.food.absoluteX && this.snake.absoluteY == this.food.absoluteY) {
+            this.deleteFood();
+            this.createFood();
+            this.snake.foodHasEaten();
+        }
     }
 }

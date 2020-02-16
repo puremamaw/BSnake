@@ -21,6 +21,7 @@ class GameCell {
         newCell.style.width = `${this.width}px`;
         newCell.style.height = `${this.height}px`;
         newCell.style.position = "absolute";
+        newCell.style.border = "1px solid black";
         newCell.style.left = `${(this.absoluteX)}px`;
         newCell.style.top = `${(this.absoluteY)}px`;
         newCell.style.textAlign = "center";

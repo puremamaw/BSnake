@@ -108,11 +108,10 @@ class GameBoard {
             }
 
             this.snake.continueSnake();
+            this.snake.updatePosition();
             this.appendSnake(this.snake);
             this.foodHasEaten();
             this.gameOver();
-
-
         }
     }
 

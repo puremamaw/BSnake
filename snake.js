@@ -10,6 +10,7 @@ class Snake {
     body = [];
     newHead = null;
     keyDirection = null;
+    snakeHead = null;
 
     constructor(x, y, w, h) {
 
@@ -31,13 +32,11 @@ class Snake {
         snake.style.backgroundColor = "black";
         snake.style.position = "absolute";
 
-        snake[0] = {
-            x: this.x,
-            y: this.y
-        };
+        snake[0] = new SnakeCell(this.x, this.y, this.width, this.height);
+
+        this.snakeHead = snake[0];
 
         this.body.push(snake[0]);
-        console.log("before", this.body);
         this.Element = snake;
     }
 
@@ -50,6 +49,7 @@ class Snake {
             x: this.x,
             y: this.y
         };
+
     }
 
 
@@ -75,12 +75,14 @@ class Snake {
         if (this.direction == "LEFT")
             currentX--;
 
-
         let newCell = new SnakeCell(currentX, currentY, this.width, this.height);
 
-
         this.body.push(newCell);
+
+        console.log("snakebodyX", currentX);
+        console.log("snakebodyY", currentY);
         console.log("after", this.body);
+
     }
 
     updatePosition = () => {
@@ -89,7 +91,23 @@ class Snake {
         lastPosition.x = this.head.position.x;
         lastPosition.y = this.head.position.y;
 
-        for (let x = 0; x < this.body.length; x++) {
+
+        switch (this.keyDirection) {
+            case "UP":
+                this.head.position.y--;
+                break;
+            case "DOWN":
+                this.head.position.y++;
+                break;
+            case "LEFT":
+                this.head.position.x--;
+                break;
+            case "RIGHT":
+                this.head.position.x++;
+                break;
+        }
+
+        for (let x = 1; x < this.body.length; x++) {
             let tempPosition = new Vector2D();
             tempPosition.x = this.body[x].position.x;
             tempPosition.y = this.body[x].position.y;

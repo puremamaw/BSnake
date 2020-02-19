@@ -11,8 +11,7 @@ class GameBoard {
     cellHeight = 0;
     hasMovementDisabled = false;
     food = [];
-    gameSpeed = 1000;
-
+    gameSpeed = 100;
     gameObjects = [];
 
     initialize() {
@@ -27,7 +26,7 @@ class GameBoard {
 
         for (let y = 0; y < this.size; y++) {
             for (let x = 0; x < this.size; x++) {
-                let newCell = new GameCell(this.cellWidth, this.cellHeight, x, y);
+                let newCell = new GameCell(x, y, this.cellWidth, this.cellHeight);
                 this.appendCell(newCell);
 
                 if (!this.cells[x])
@@ -107,7 +106,6 @@ class GameBoard {
                 this.snake.absoluteY += this.cellHeight;
             }
 
-            this.snake.continueSnake();
             this.snake.updatePosition();
             this.appendSnake(this.snake);
             this.foodHasEaten();
@@ -115,13 +113,7 @@ class GameBoard {
         }
     }
 
-    // update = () => {
-    //     this.updateSnakeMovement();
-    //     for (let x = 0; x < this.gameObjects.length; x++)
-    //         this.gameObjects[x].update();
-    // }
-
-    // updateGame = setInterval(this.update, this.gameSpeed);
+    updateGame = setInterval(this.updateSnakeMovement, this.gameSpeed);
 
 
     gameOver = () => {

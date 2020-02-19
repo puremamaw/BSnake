@@ -9,7 +9,7 @@ class Snake {
     Element = null;
     body = [];
     newHead = null;
-    keyDirection = null;
+    keyDirection = "RIGHT";
     snakeHead = null;
 
     constructor(x, y, w, h) {
@@ -21,37 +21,14 @@ class Snake {
         this.absoluteX = w * this.x;
         this.absoluteY = h * this.y;
 
-        let snake = []
+        this.snakeHead = new SnakeCell(this.x, this.y, this.width, this.height);
 
-        snake = document.createElement("div");
-        snake.classList.add("snake");
-        snake.style.width = `${this.width}px`;
-        snake.style.height = `${this.height}px`;
-        snake.style.left = `${this.absoluteX}px`;
-        snake.style.top = `${this.absoluteY}px`;
-        snake.style.backgroundColor = "black";
-        snake.style.position = "absolute";
+        this.snakeHead.cellSnake();
 
-        snake[0] = new SnakeCell(this.x, this.y, this.width, this.height);
+        this.body.push(this.snakeHead);
 
-        this.snakeHead = snake[0];
-
-        this.body.push(snake[0]);
-        this.Element = snake;
+        this.Element = this.snakeHead.Element;
     }
-
-    continueSnake = () => {
-
-        this.Element.style.left = `${this.absoluteX}px`;
-        this.Element.style.top = `${this.absoluteY}px`;
-
-        this.Element[0] = {
-            x: this.x,
-            y: this.y
-        };
-
-    }
-
 
     get head() {
         return this.body[0];
@@ -79,13 +56,14 @@ class Snake {
 
         this.body.push(newCell);
 
-        console.log("snakebodyX", currentX);
-        console.log("snakebodyY", currentY);
-        console.log("after", this.body);
+        console.log("snake after eaten", this.body);
 
     }
 
     updatePosition = () => {
+
+        this.Element.style.left = `${this.absoluteX}px`;
+        this.Element.style.top = `${this.absoluteY}px`;
 
         let lastPosition = new Vector2D();
         lastPosition.x = this.head.position.x;
@@ -114,13 +92,6 @@ class Snake {
             this.body[x].position.x = lastPosition.x;
             this.body[x].position.y = lastPosition.y;
             lastPosition = tempPosition;
-        }
-    }
-
-    update = () => {
-        this.updatePosition();
-        for (let x = 0; x < this.body.length; x++) {
-            this.body[x].update();
         }
     }
 }
